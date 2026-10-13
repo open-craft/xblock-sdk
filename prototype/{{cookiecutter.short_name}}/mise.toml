@@ -8,6 +8,7 @@ compile = false
 
 [tools]
 "npm:pnpm" = "latest"
+"uv" = "latest"
 
 [env]
 _.python.venv = { path = ".venv" }
