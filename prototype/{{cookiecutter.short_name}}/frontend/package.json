@@ -1,0 +1,48 @@
+{
+  "name": "frontend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build:typescript": "tsc -b",
+    "build:vite": "vite build",
+    "build": "pnpm run build:typescript && pnpm run build:vite",
+    "build:watch": "vite build --watch",
+    "lint": "oxfmt --check && eslint .",
+    "format": "oxfmt",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@opencraft/xblock-react-utils": "^0.1.1",
+    "@openedx/paragon": "^23.19.1",
+    "formik": "^2.4.9",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-focus-on": "^3.5.4",
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.0",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.0",
+    "@types/jquery": "^4.0.0",
+    "@types/node": "^24.12.0",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^6.0.0",
+    "@vitest/coverage-v8": "^4.1.2",
+    "globals": "^17.4.0",
+    "jsdom": "^25.0.0",
+    "oxfmt": "^0.42.0",
+    "react-intl": "^6.8.9",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.0",
+    "vitest": "^4.1.2"
+  },
+  "engines": {
+    "node": "=24",
+    "pnpm": ">=10"
+  }
+}

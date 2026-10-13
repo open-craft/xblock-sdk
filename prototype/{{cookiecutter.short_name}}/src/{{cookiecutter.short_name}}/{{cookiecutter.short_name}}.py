@@ -2,9 +2,15 @@
 
 from importlib.resources import files
 
+from pathlib import Path
+
 from web_fragments.fragment import Fragment
 from xblock.core import XBlock
-from xblock.fields import Integer, Scope
+from xblock.fields import Integer, Scope, String
+from xblock.utils.resources import ResourceLoader
+
+
+resource_loader = ResourceLoader(__name__)
 
 
 class {{cookiecutter.class_name}}(XBlock):
@@ -15,15 +21,19 @@ class {{cookiecutter.class_name}}(XBlock):
     # Fields are defined on the class.  You can access them in your code as
     # self.<fieldname>.
 
-    # TO-DO: delete count, and define your own fields.
+    # TO-DO: delete count and code, and define your own fields.
     count = Integer(
         default=0, scope=Scope.user_state,
         help="A simple counter, to show something happening",
     )
+    code = String(
+        default="beep", scope=Scope.settings,
+        help="code word to check for on update"
+    )
 
-    def resource_string(self, path):
+    def resource_string(self, path: str | Path) -> str:
         """Handy helper for getting resources from our kit."""
-        return files(__package__).joinpath(path).read_text(encoding="utf-8")
+        return resource_loader.load_unicode(path)
 
     # TO-DO: change this view to display your data your own way.
     def student_view(self, context=None):
@@ -45,8 +55,13 @@ class {{cookiecutter.class_name}}(XBlock):
         """
         An example handler, which increments the data.
         """
-        # Just to show data coming in...
-        assert data['hello'] == 'world'
+        if data['code'] != self.code:
+            return Response(
+                json.dumps({"error": "Code does not match!"}),
+                status=status,
+                content_type="application/json",
+                charset="utf8",
+            )
 
         self.count += 1
         return {"count": self.count}
