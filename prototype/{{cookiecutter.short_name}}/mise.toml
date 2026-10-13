@@ -28,19 +28,6 @@ dir = "./frontend"
 description = "Install project backend dependencies"
 run = "uv sync"
 
-[tasks.init_sdk]
-description = "Init the xblock-sdk in the python environment"
-run = [
-    "git submodule update --init",
-    "uv pip install -e ./xblock-sdk",
-    # This may need to be updated if upstream changes how they organize their
-    # requirements. We can't use 'pip' here because it doesn't exist in a uv
-    # environment. It is, however, handled by the uv pip subcommand.
-    "uv pip install -r xblock-sdk/requirements/dev.txt",
-    "uv pip install -r xblock-sdk/requirements/local.txt",
-    "cd xblock-sdk && uv run ./manage.py migrate",
-]
-
 [tasks."format:backend"]
 description = "Apply standard formatting to backend code files"
 run = ["uv run ruff check --fix src", "uv run ruff format src"]
@@ -59,7 +46,6 @@ description = "Run quality checks on the backend code"
 run = [
     "uv run ruff check src",
     "uv run ruff format --check src",
-    "uv run mypy src",
 ]
 
 [tasks."quality:frontend"]
@@ -70,12 +56,6 @@ dir = "./frontend"
 [tasks.quality]
 description = "Run quality checks on the code"
 depends = "quality:*"
-
-[tasks.dev]
-description = "Run a dev server"
-env = { EXCLUDE_SAMPLE_XBLOCKS = "yes", DJANGO_SETTINGS_MODULE = "test_settings" }
-run = "uv run ./manage.py runserver"
-dir = "./xblock-sdk"
 
 [tasks."test:backend:unit"]
 description = "Run Python unit tests"

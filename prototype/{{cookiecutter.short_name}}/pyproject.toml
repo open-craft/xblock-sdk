@@ -12,6 +12,14 @@ dependencies = [
     "xblock",
 ]
 
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-django",
+    "pytest-cov",
+    "ruff",
+]
+
 # Related XBlocks can be grouped into one repository. Each one should have its own package in the src subdirectory,
 # and should be added to the list of entry points here. You will also need to update the 'module-name' list below
 # under [tool.uv.build-backend].
