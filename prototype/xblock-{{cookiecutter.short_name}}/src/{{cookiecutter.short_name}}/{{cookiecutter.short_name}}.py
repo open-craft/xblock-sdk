@@ -44,17 +44,26 @@ class {{cookiecutter.class_name}}(XBlock):
         The primary view of the {{cookiecutter.class_name}}, shown to students
         when viewing courses.
         """
-        frag = Fragment()
+        return self.render_view("student")
+
+    def render_view(self, view_name: str):
+        """
+        Render a view for the user. Loads the specifically needed js based
+        on the view name.
+        """
+        html = resource_loader.load_unicode(f"static/html/{view_name}.html")
+        frag = Fragment(html)
         frag.add_javascript(self.resource_string("static/js/src/{{cookiecutter.short_name|lower}}.js"))
         frag.initialize_js(
             "{{cookiecutter.class_name}}",
             {
                 "url": self.runtime.local_resource_url(
-                    self, "public/student.js"
+                    self, f"public/{view_name}.js"
                 ),
                 "data": {
                     "count": self.count,
                     "code": self.code,
+                    "display_name": self.display_name,
                 },
                 "config": {
                     "mfe_config_api": f"{settings.LMS_ROOT_URL}/api/mfe_config/v1?mfe=learning",
@@ -62,6 +71,13 @@ class {{cookiecutter.class_name}}(XBlock):
             },
         )
         return frag
+
+    def studio_view(self, context=None):
+        """
+        The primary view of the {{cookiecutter.class_name}}, shown to students
+        when viewing courses.
+        """
+        return self.render_view("studio")
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.

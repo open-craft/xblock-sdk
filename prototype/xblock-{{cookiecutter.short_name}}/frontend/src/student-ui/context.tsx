@@ -5,7 +5,12 @@ interface AppContextExtensions {
     setCount: (arg: number) => void;
 }
 
-export const AppContext: Context<{{cookiecutter.class_name}}Fields & AppContextExtensions> = createContext({count: 0, code: 'beep', setCount: (_arg: number) => {}})
+export const AppContext: Context<{{cookiecutter.class_name}}Fields & AppContextExtensions> = createContext({
+    display_name: '{{cookiecutter.class_name}}',
+    count: 0,
+    code: 'beep',
+    setCount: (_arg: number) => {},
+})
 
 export const AppContextProvider: FC<PropsWithChildren<{{cookiecutter.class_name}}Fields>> = ({children, ...props}) => {
     const [count, setCount] = useState(props.count);

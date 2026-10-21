@@ -3,7 +3,7 @@ import { Counter } from './components/Counter.tsx'
 import { AppContextProvider } from './context.tsx';
 import { type {{cookiecutter.class_name}}Fields } from '../types.ts';
 
-const App: React.FC<{{cookiecutter.class_name}}Fields> = (props: {{cookiecutter.class_name}}Fields) => {
+export const App: React.FC<{{cookiecutter.class_name}}Fields> = (props: {{cookiecutter.class_name}}Fields) => {
     return (
         <AppContextProvider {...props}>
             <Counter />
@@ -11,4 +11,3 @@ const App: React.FC<{{cookiecutter.class_name}}Fields> = (props: {{cookiecutter.
     )
 };
 
-export default App;

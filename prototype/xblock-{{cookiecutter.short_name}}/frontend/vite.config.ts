@@ -34,10 +34,10 @@ export default defineConfig(({ mode }) => {
                         import.meta.dirname,
                         'src/student-ui/main.tsx',
                     ),
-                    // studio: resolve(
-                    //     import.meta.dirname,
-                    //     'src/studio-ui/main.tsx',
-                    // ),
+                    studio: resolve(
+                        import.meta.dirname,
+                        'src/studio-ui/main.tsx',
+                    ),
                 },
                 formats: ['es'],
             },
