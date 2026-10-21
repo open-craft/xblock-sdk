@@ -22,6 +22,9 @@ class {{cookiecutter.class_name}}(XBlock):
     # Fields are defined on the class.  You can access them in your code as
     # self.<fieldname>.
 
+    # This is used by the studio to label the block. It doesn't appear for the
+    # student unless you choose to render it.
+    display_name = String(default="{{cookiecutter.class_name}}")
     # TO-DO: delete count and code, and define your own fields.
     count = Integer(
         default=0, scope=Scope.user_state,
@@ -36,15 +39,12 @@ class {{cookiecutter.class_name}}(XBlock):
         """Handy helper for getting resources from our kit."""
         return resource_loader.load_unicode(path)
 
-    # TO-DO: change this view to display your data your own way.
     def student_view(self, context=None):
         """
         The primary view of the {{cookiecutter.class_name}}, shown to students
         when viewing courses.
         """
-        html = self.resource_string("static/html/{{cookiecutter.short_name|lower}}.html")
-        frag = Fragment(html.format(self=self))
-        frag.add_css(self.resource_string("static/css/{{cookiecutter.short_name|lower}}.css"))
+        frag = Fragment()
         frag.add_javascript(self.resource_string("static/js/src/{{cookiecutter.short_name|lower}}.js"))
         frag.initialize_js(
             "{{cookiecutter.class_name}}",
