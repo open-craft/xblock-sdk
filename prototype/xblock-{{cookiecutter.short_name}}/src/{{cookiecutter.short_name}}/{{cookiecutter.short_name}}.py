@@ -4,6 +4,7 @@ from importlib.resources import files
 
 from pathlib import Path
 
+from django.conf import settings
 from web_fragments.fragment import Fragment
 from xblock.core import XBlock
 from xblock.fields import Integer, Scope, String
@@ -45,17 +46,31 @@ class {{cookiecutter.class_name}}(XBlock):
         frag = Fragment(html.format(self=self))
         frag.add_css(self.resource_string("static/css/{{cookiecutter.short_name|lower}}.css"))
         frag.add_javascript(self.resource_string("static/js/src/{{cookiecutter.short_name|lower}}.js"))
-        frag.initialize_js('{{cookiecutter.class_name}}')
+        frag.initialize_js(
+            "{{cookiecutter.class_name}}",
+            {
+                "url": self.runtime.local_resource_url(
+                    self, "public/student.js"
+                ),
+                "data": {
+                    "count": self.count,
+                    "code": self.code,
+                },
+                "config": {
+                    "mfe_config_api": f"{settings.LMS_ROOT_URL}/api/mfe_config/v1?mfe=learning",
+                }
+            },
+        )
         return frag
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
     @XBlock.json_handler
-    def increment_count(self, data, suffix=''):
+    def increment(self, data, suffix=''):
         """
         An example handler, which increments the data.
         """
-        if data['code'] != self.code:
+        if data.get('code') != self.code:
             return Response(
                 json.dumps({"error": "Code does not match!"}),
                 status=status,
