@@ -10,34 +10,6 @@ interface AppConfig {
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-    const libs: Record<string, AppConfig> = {
-        {{cookiecutter.short_name}}: {
-            entry: {
-                cardCarouselStudent: resolve(
-                    import.meta.dirname,
-                    'src/card/{{cookiecutter.short_name}}/student-ui/main.tsx',
-                ),
-                cardCarouselStudio: resolve(
-                    import.meta.dirname,
-                    'src/card/{{cookiecutter.short_name}}/studio-ui/main.tsx',
-                ),
-            },
-            outDir: resolve(__dirname, '../src/{{cookiecutter.short_name}}/public'),
-        },
-    };
-
-    const xblock = process.env.XBLOCK;
-    if (!xblock || !(xblock in libs)) {
-        console.error(`Invalid XBLOCK environment variable: ${xblock}`);
-        console.error(
-            'Set it to the XBlock you wish to build. Available options:\n',
-        );
-        for (const key in libs) {
-            console.error(`  ${key}`);
-        }
-        console.error('\nFor example: export XBLOCK={{cookiecutter.short_name}}');
-        process.exit(1);
-    }
 
     return {
         define: {
@@ -57,10 +29,19 @@ export default defineConfig(({ mode }) => {
         build: {
             cssMinify: 'lightningcss',
             lib: {
-                entry: libs[xblock].entry,
+                entry: {
+                    student: resolve(
+                        import.meta.dirname,
+                        'src/student-ui/main.tsx',
+                    ),
+                    studio: resolve(
+                        import.meta.dirname,
+                        'src/studio-ui/main.tsx',
+                    ),
+                },
                 formats: ['es'],
             },
-            outDir: libs[xblock].outDir,
+            outDir: resolve(__dirname, '../src/{{cookiecutter.short_name}}/public'),
             emptyOutDir: true,
         },
         test: {

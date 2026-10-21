@@ -6,7 +6,6 @@ readme = "README.md"
 # license = "UNKNOWN"  # TODO: choose a license: 'AGPL-3.0-or-later' and 'Apache-2.0' are popular.
 # Version used by the platform as of Verawood. Lower this if you need to support older versions,
 # or raise it if you only plan to support newer ones.
-# Update mise.toml with the version you want to use during development.
 requires-python = ">=3.12.13"
 dependencies = [
     "xblock",
