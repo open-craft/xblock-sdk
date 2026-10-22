@@ -6,13 +6,16 @@ import {
 import { App } from './App.tsx';
 import styles from './style.scss?inline';
 import type { {{cookiecutter.class_name}}Fields } from '@/types.ts';
+import { XBlockConfigContext } from '@/context.ts';
 
 export const renderBlock = (
-    runtime: XBlockRuntime,
     element: Element | null,
+    runtime: XBlockRuntime,
     context: { data: {{cookiecutter.class_name}}Fields; config: XBlockConfig },
 ) => {
     createXBlockRoot({ runtime, element, config: context.config, styles })(
-        <App {...context.data} />
+        <XBlockConfigContext.Provider value={context.config}>
+          <App {...context.data} />
+        </XBlockConfigContext.Provider>
     );
 };

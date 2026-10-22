@@ -97,6 +97,16 @@ class {{cookiecutter.class_name}}(XBlock):
         self.count += 1
         return {"count": self.count}
 
+    # Used to save settings from the studio.
+    @XBlock.json_handler
+    def studio_save(self, data, suffix=''):
+        """
+        Save the data for the block.
+        """
+        self.display_name = data.get('display_name', self.display_name)
+        self.code = data.get('code', self.code)
+        return {}
+
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
     @staticmethod
