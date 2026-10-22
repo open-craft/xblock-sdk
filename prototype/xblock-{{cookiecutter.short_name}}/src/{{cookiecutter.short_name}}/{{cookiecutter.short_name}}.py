@@ -1,15 +1,14 @@
 """TO-DO: Write a description of what this XBlock is."""
 
-from importlib.resources import files
-
+import json
 from pathlib import Path
 
 from django.conf import settings
 from web_fragments.fragment import Fragment
+from webob import Response
 from xblock.core import XBlock
 from xblock.fields import Integer, Scope, String
 from xblock.utils.resources import ResourceLoader
-
 
 resource_loader = ResourceLoader(__name__)
 
@@ -27,12 +26,12 @@ class {{cookiecutter.class_name}}(XBlock):
     display_name = String(default="{{cookiecutter.class_name}}")
     # TO-DO: delete count and code, and define your own fields.
     count = Integer(
-        default=0, scope=Scope.user_state,
+        default=0,
+        scope=Scope.user_state,
         help="A simple counter, to show something happening",
     )
     code = String(
-        default="beep", scope=Scope.settings,
-        help="code word to check for on update"
+        default="beep", scope=Scope.settings, help="code word to check for on update"
     )
 
     def resource_string(self, path: str | Path) -> str:
@@ -57,9 +56,7 @@ class {{cookiecutter.class_name}}(XBlock):
         frag.initialize_js(
             "{{cookiecutter.class_name}}",
             {
-                "url": self.runtime.local_resource_url(
-                    self, f"public/{view_name}.js"
-                ),
+                "url": self.runtime.local_resource_url(self, f"public/{view_name}.js"),
                 "data": {
                     "count": self.count,
                     "code": self.code,
@@ -67,7 +64,7 @@ class {{cookiecutter.class_name}}(XBlock):
                 },
                 "config": {
                     "mfe_config_api": f"{settings.LMS_ROOT_URL}/api/mfe_config/v1?mfe=learning",
-                }
+                },
             },
         )
         return frag
@@ -82,14 +79,14 @@ class {{cookiecutter.class_name}}(XBlock):
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
     @XBlock.json_handler
-    def increment(self, data, suffix=''):
+    def increment(self, data, suffix=""):
         """
         An example handler, which increments the data.
         """
-        if data.get('code') != self.code:
+        if data.get("code") != self.code:
             return Response(
                 json.dumps({"error": "Code does not match!"}),
-                status=status,
+                status=400,
                 content_type="application/json",
                 charset="utf8",
             )
@@ -99,12 +96,12 @@ class {{cookiecutter.class_name}}(XBlock):
 
     # Used to save settings from the studio.
     @XBlock.json_handler
-    def studio_save(self, data, suffix=''):
+    def studio_save(self, data, suffix=""):
         """
         Save the data for the block.
         """
-        self.display_name = data.get('display_name', self.display_name)
-        self.code = data.get('code', self.code)
+        self.display_name = data.get("display_name", self.display_name)
+        self.code = data.get("code", self.code)
         return {}
 
     # TO-DO: change this to create the scenarios you'd like to see in the
@@ -113,14 +110,18 @@ class {{cookiecutter.class_name}}(XBlock):
     def workbench_scenarios():
         """A canned scenario for display in the workbench."""
         return [
-            ("{{cookiecutter.class_name}}",
-             """<{{cookiecutter.short_name|lower}}/>
-             """),
-            ("Multiple {{cookiecutter.class_name}}",
-             """<vertical_demo>
-                <{{cookiecutter.short_name|lower}}/>
-                <{{cookiecutter.short_name|lower}}/>
-                <{{cookiecutter.short_name|lower}}/>
+            (
+                "{{cookiecutter.class_name}}",
+                """<{{cookiecutter.short_name|lower}}/>
+                """,
+            ),
+            (
+                "Multiple {{cookiecutter.class_name}}",
+                """<vertical_demo>
+                   <{{cookiecutter.short_name|lower}}/>
+                   <{{cookiecutter.short_name|lower}}/>
+                   <{{cookiecutter.short_name|lower}}/>
                 </vertical_demo>
-             """),
+                """,
+            ),
         ]
