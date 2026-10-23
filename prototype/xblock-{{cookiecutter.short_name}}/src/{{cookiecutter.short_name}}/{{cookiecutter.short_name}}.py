@@ -46,13 +46,15 @@ class {{cookiecutter.class_name}}(XBlock):
         """
         return self.render_view("student")
 
-    def render_view(self, view_name: str):
+    def render_view(self, view_name: str, normalize=False):
         """
         Render a view for the user. Loads the specifically needed js based
         on the view name.
         """
         html = resource_loader.load_unicode(f"static/html/{view_name}.html")
         frag = Fragment(html)
+        if normalize:
+            frag.add_css(resource_loader.load_unicode("static/css/studio.css"))
         frag.add_javascript(self.resource_string("static/js/src/{{cookiecutter.short_name|lower}}.js"))
         frag.initialize_js(
             "{{cookiecutter.class_name}}",
@@ -75,7 +77,7 @@ class {{cookiecutter.class_name}}(XBlock):
         The primary view of the {{cookiecutter.class_name}}, shown to students
         when viewing courses.
         """
-        return self.render_view("studio")
+        return self.render_view("studio", normalize=True)
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
