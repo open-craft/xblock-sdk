@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 
 from django.conf import settings
-from django.utils.translation import gettext_lazy as _
 from web_fragments.fragment import Fragment
 from webob import Response
 from xblock.core import XBlock
@@ -29,10 +28,10 @@ class {{cookiecutter.class_name}}(XBlock):
     count = Integer(
         default=0,
         scope=Scope.user_state,
-        help=_("A simple counter, to show something happening"),
+        help="A simple counter, to show something happening",
     )
     code = String(
-        default="beep", scope=Scope.settings, help=_("code word to check for on update")
+        default="beep", scope=Scope.settings, help="code word to check for on update"
     )
 
     def resource_string(self, path: str | Path) -> str:
@@ -88,7 +87,7 @@ class {{cookiecutter.class_name}}(XBlock):
         """
         if data.get("code") != self.code:
             return Response(
-                json.dumps({"error": _("Code does not match!")}),
+                json.dumps({"error": "Code does not match!"}),
                 status=400,
                 content_type="application/json",
                 charset="utf8",
