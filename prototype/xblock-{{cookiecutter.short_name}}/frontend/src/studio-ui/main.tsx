@@ -6,7 +6,7 @@ import {
 import { App } from "./App.tsx";
 import styles from "./style.scss?inline";
 import type { {{cookiecutter.class_name}}Fields } from "@/types.ts";
-import { XBlockConfigContext } from "@/context.ts";
+import { XBlockConfigContext } from "@/lib/context.ts";
 
 export const renderBlock = (
   element: Element | null,
