@@ -10,7 +10,7 @@ export const Editor = () => {
   return (
     <div className="react-studio-block">
       <div className="{{cookiecutter.short_name}}-editor editor-with-buttons">
-        <div className="wrapper-comp-settings is-active cover-editor-body">
+        <div className="wrapper-comp-settings is-active {{cookiecutter.short_name}}-editor-body">
           <{{cookiecutter.class_name}}Form />
         </div>
         <div className="xblock-actions {{cookiecutter.short_name}}-editor-actions">

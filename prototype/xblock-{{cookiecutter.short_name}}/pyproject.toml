@@ -9,6 +9,7 @@ readme = "README.md"
 requires-python = ">=3.12.13"
 dependencies = [
     "xblock",
+    "django",
 ]
 
 [dependency-groups]
@@ -36,3 +37,7 @@ package = true
 module-name = [
     "{{cookiecutter.short_name}}",
 ]
+
+[tool.pytest.ini_options]
+django_find_project = false
+DJANGO_SETTINGS_MODULE = "holo3d.test.settings"

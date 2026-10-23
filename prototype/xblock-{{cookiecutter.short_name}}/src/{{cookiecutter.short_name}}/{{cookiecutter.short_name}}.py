@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from django.conf import settings
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from web_fragments.fragment import Fragment
 from webob import Response
 from xblock.core import XBlock
