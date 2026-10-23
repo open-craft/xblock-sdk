@@ -1,12 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
-import { pathToFileURL } from "url";
-
-interface AppConfig {
-  entry: Record<string, string>;
-  outDir: string;
-}
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
